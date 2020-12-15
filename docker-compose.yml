@@ -1,0 +1,45 @@
+version: "2.2"
+services:
+  test:
+    build: .
+    depends_on:
+      - etcd-node-0
+      - etcd-node-1
+      - etcd-node-2
+  etcd-node-0:
+    image: gcr.io/etcd-development/etcd:latest
+    command:
+      - /usr/local/bin/etcd
+      - --name=etcd-node-0
+      - --advertise-client-urls=http://etcd-node-0:2379
+      - --initial-advertise-peer-urls=http://etcd-node-0:2380
+      - --listen-client-urls=http://0.0.0.0:2379
+      - --listen-peer-urls=http://0.0.0.0:2380
+      - --initial-cluster=etcd-node-0=http://etcd-node-0:2380,etcd-node-1=http://etcd-node-1:2380,etcd-node-2=http://etcd-node-2:2380
+      - --initial-cluster-state=new
+      - --initial-cluster-token=foo
+  etcd-node-1:
+    image: gcr.io/etcd-development/etcd:latest
+    command:
+      - /usr/local/bin/etcd
+      - --name=etcd-node-1
+      - --advertise-client-urls=http://etcd-node-1:2379
+      - --initial-advertise-peer-urls=http://etcd-node-1:2380
+      - --listen-client-urls=http://0.0.0.0:2379
+      - --listen-peer-urls=http://0.0.0.0:2380
+      - --initial-cluster=etcd-node-0=http://etcd-node-0:2380,etcd-node-1=http://etcd-node-1:2380,etcd-node-2=http://etcd-node-2:2380
+      - --initial-cluster-state=new
+      - --initial-cluster-token=foo
+  etcd-node-2:
+    image: gcr.io/etcd-development/etcd:latest
+    command:
+      - /usr/local/bin/etcd
+      - --name=etcd-node-2
+      - --advertise-client-urls=http://etcd-node-2:2379
+      - --initial-advertise-peer-urls=http://etcd-node-2:2380
+      - --listen-client-urls=http://0.0.0.0:2379
+      - --listen-peer-urls=http://0.0.0.0:2380
+      - --initial-cluster=etcd-node-0=http://etcd-node-0:2380,etcd-node-1=http://etcd-node-1:2380,etcd-node-2=http://etcd-node-2:2380
+      - --initial-cluster-state=new
+      - --initial-cluster-token=foo
+
